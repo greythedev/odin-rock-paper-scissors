@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odin Rock Paper Scissors</title>
+  </head>
+  <body>
+    <h1>Odin Rock Paper Scissors</h1>
+    <p>Click the button to start the game!</p>
+    <button onclick="gameLoop()">Start Game</button>
+    <script>
+      let humanScore = 0;
+      let aiScore = 0;
+
+      let rounds = 0;
+      let conclusion = "";
+
+      function gameLoop() {
+        while (rounds < 5) {
+          let humanChoice = getHumanChoice();
+          let aiChoice = getAIChoice();
+
+          let result = playRound(humanChoice, aiChoice);
+          rounds++;
+        }
+
+        if (humanScore > aiScore) {
+          alert(`
+            Human Score: ${humanScore}\t\t\t\t\tRounds: ${rounds}/5
+            AI Score: ${aiScore}
+
+            ${conclusion}
+            `);
+          alert(`You won ${humanScore} out of ${rounds} rounds!`);
+        } else if (aiScore > humanScore) {
+          alert(`
+            Human Score: ${humanScore}\t\t\t\t\tRounds: ${rounds}/5
+            AI Score: ${aiScore}
+
+            ${conclusion}
+            `);
+          alert(`You lost ${aiScore} out of ${rounds} rounds to an AI!`);
+        } else {
+          alert(`
+            Human Score: ${humanScore}\t\t\t\t\tRounds: ${rounds}/5
+            AI Score: ${aiScore}
+
+            ${conclusion}
+            `);
+          alert(`You tied up with an AI in a ${rounds} rounds game!`);
+        }
+
+        gameReset();
+      }
+
+      function gameReset() {
+        conclusion = "";
+        return (humanScore = 0), (aiScore = 0), (rounds = 0);
+      }
+
+      function getHumanChoice() {
+        let choice = prompt(`
+            Human Score: ${humanScore}\t\t\t\t\tRounds: ${rounds}/5
+            AI Score: ${aiScore}
+
+            ${conclusion}
+
+            Rock, Paper, or Scissors?
+        `).toLowerCase();
+
+        if (choice !== "rock" && choice !== "paper" && choice !== "scissors") {
+          alert("Invalid choice! Please choose rock, paper, or scissors.");
+          return getHumanChoice();
+        }
+
+        return choice;
+      }
+
+      function getAIChoice() {
+        let choices = ["rock", "paper", "scissors"];
+        let choice = choices[Math.floor(Math.random() * choices.length)];
+        return choice;
+      }
+
+      function playRound(humanChoice, aiChoice) {
+        if (humanChoice == aiChoice) {
+          return (conclusion = `Draw. Both sides picked ${humanChoice}.`);
+        } else if (
+          (humanChoice == "rock" && aiChoice == "scissors") ||
+          (humanChoice == "paper" && aiChoice == "rock") ||
+          (humanChoice == "scissors" && aiChoice == "paper")
+        ) {
+          humanScore++;
+          return (conclusion = `You won! ${humanChoice} beats ${aiChoice}.`);
+        } else {
+          aiScore++;
+          return (conclusion = `You lost! ${aiChoice} beats ${humanChoice}`);
+        }
+      }
+    </script>
+  </body>
+</html>
